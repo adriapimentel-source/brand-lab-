@@ -838,12 +838,12 @@
   <div class="notice" id="autoSaveNotice">✅ Suas respostas foram salvas automaticamente! Não esqueça de enviar a reflexão final abaixo.</div>
 
   <div class="card">
-    <div class="section-label">Enviar Missão Completa</div>
+    <div class="section-label">Missão Completa!</div>
     <div class="fg">
-      <label class="flabel" for="finalReflFinal">Sua reflexão final está salva. Revise e confirme o envio clicando abaixo:</label>
+      <label class="flabel">Sua reflexão final está salva. Guarde com você o registro da sua marca pessoal atual para te nortear ao longo das próximas atividades do 2º trimestre.</label>
     </div>
   <div class="btn-row">
-    <button class="btn btn-outline" onclick="saveCardAsImage()">
+    <button class="btn btn-gold" onclick="saveCardAsImage()">
       <span aria-hidden="true">📸</span> Salvar Card como Imagem
     </button>
     <button class="btn btn-gold" onclick="saveFullPDF()">
@@ -1055,6 +1055,14 @@ function go(n){
     if(!chkField('finalRefl','finalReflErr',CFG.MIN.finalRefl)) return;
     ST.finalRefl = document.getElementById('finalRefl').value;
     buildSaveCard();
+    // Envia ao Sheets ao avançar para o Brand Card (todos os dados já coletados)
+    var dadosFinais = coletarTodosDados();
+    showToast('📡 Enviando respostas...');
+    enviarParaSheets(dadosFinais).then(function(){
+      showToast('✅ Missão registrada!');
+      var box = document.getElementById('successBox');
+      if(box){ box.style.display='block'; }
+    });
   }
   showScreen(n);
 }
@@ -1125,9 +1133,6 @@ function enviarParaSheets(dados) {
     console.warn('Brand Lab: URL do Google Sheets não configurada.');
     return Promise.resolve();
   }
-  // Usa JSON direto com mode:'cors' — Apps Script suporta CORS quando
-  // publicado como "Qualquer pessoa". no-cors bloqueia o redirect 302
-  // que o Google faz antes de executar o script.
   return fetch(SCRIPT_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -1137,8 +1142,7 @@ function enviarParaSheets(dados) {
   }).then(function(json) {
     console.log('Brand Lab: envio OK', json);
   }).catch(function(err) {
-    // Fallback: tenta via no-cors como último recurso
-    console.warn('Brand Lab: CORS falhou, tentando no-cors...', err);
+    console.warn('Brand Lab: tentando fallback no-cors...', err);
     return fetch(SCRIPT_URL, {
       method: 'POST',
       mode: 'no-cors',
@@ -1158,15 +1162,9 @@ function autoSubmit() {
 
 /* ---- FINALIZAR MISSÃO ---- */
 function finalizarMissao() {
-  var dados = coletarTodosDados();
-  showToast('📡 Enviando dados...');
-  enviarParaSheets(dados).then(function() {
-    showToast('✅ Missão registrada!');
-    ST.xp += 100;
-    document.getElementById('xpBadge').textContent = ST.xp + ' XP';
-    var box = document.getElementById('successBox');
-    if (box) { box.style.display = 'block'; box.scrollIntoView({ behavior: 'smooth' }); }
-  });
+  ST.xp += 100;
+  document.getElementById('xpBadge').textContent = ST.xp + ' XP';
+  showToast('🎉 Brand Card Completo! +100 XP');
   saveFullPDF();
 }
 
