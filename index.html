@@ -756,28 +756,28 @@
   <div class="card">
     <div class="section-label">Construindo seu Pitch</div>
     <div class="fg">
-      <label class="flabel" for="pitchQuem">🧑 Quem sou eu? (nome, área de interesse, formação): <small>(mínimo 10 palavras)</small></label>
+      <label class="flabel" for="pitchQuem">🧑 Quem sou eu? (nome, área de interesse, formação): <small>(mínimo 30 palavras)</small></label>
       <textarea id="pitchQuem" class="finput" style="min-height:80px" placeholder="Ex: Me chamo Lucas, estou concluindo o Ensino Médio Integral e tenho interesse em tecnologia e empreendedorismo..." aria-required="true" oninput="updPitchWC('pitchQuem','wcPQ')"></textarea>
       <div class="wcount" id="wcPQ" aria-live="polite">0 palavras</div>
-      <div class="ferr" id="pitchQuemErr" role="alert">✏️ Descreva quem você é com pelo menos 10 palavras!</div>
+      <div class="ferr" id="pitchQuemErr" role="alert">✏️ Descreva quem você é com pelo menos 30 palavras!</div>
     </div>
     <div class="fg">
-      <label class="flabel" for="pitchFaz">⚡ O que eu faço bem / minhas principais habilidades: <small>(mínimo 10 palavras)</small></label>
+      <label class="flabel" for="pitchFaz">⚡ O que eu faço bem / minhas principais habilidades: <small>(mínimo 30 palavras)</small></label>
       <textarea id="pitchFaz" class="finput" style="min-height:80px" placeholder="Ex: Tenho facilidade em programação, sou bom em resolver problemas em equipe e me comunico bem visualmente..." aria-required="true" oninput="updPitchWC('pitchFaz','wcPF')"></textarea>
       <div class="wcount" id="wcPF" aria-live="polite">0 palavras</div>
-      <div class="ferr" id="pitchFazErr" role="alert">✏️ Descreva suas habilidades com pelo menos 10 palavras!</div>
+      <div class="ferr" id="pitchFazErr" role="alert">✏️ Descreva suas habilidades com pelo menos 30 palavras!</div>
     </div>
     <div class="fg">
-      <label class="flabel" for="pitchDif">✨ O que me diferencia / meu diferencial autêntico: <small>(mínimo 10 palavras)</small></label>
+      <label class="flabel" for="pitchDif">✨ O que me diferencia / meu diferencial autêntico: <small>(mínimo 30 palavras)</small></label>
       <textarea id="pitchDif" class="finput" style="min-height:80px" placeholder="Ex: Combino habilidade técnica com visão criativa — consigo criar soluções que são funcionais e esteticamente impactantes..." aria-required="true" oninput="updPitchWC('pitchDif','wcPD')"></textarea>
       <div class="wcount" id="wcPD" aria-live="polite">0 palavras</div>
-      <div class="ferr" id="pitchDifErr" role="alert">✏️ Descreva seu diferencial com pelo menos 10 palavras!</div>
+      <div class="ferr" id="pitchDifErr" role="alert">✏️ Descreva seu diferencial com pelo menos 30 palavras!</div>
     </div>
     <div class="fg">
-      <label class="flabel" for="pitchBusca">🎯 O que estou buscando agora: <small>(mínimo 10 palavras)</small></label>
+      <label class="flabel" for="pitchBusca">🎯 O que estou buscando agora: <small>(mínimo 30 palavras)</small></label>
       <textarea id="pitchBusca" class="finput" style="min-height:80px" placeholder="Ex: Busco oportunidades de estágio ou projetos em startups de tecnologia onde possa aprender e contribuir..." aria-required="true" oninput="updPitchWC('pitchBusca','wcPB')"></textarea>
       <div class="wcount" id="wcPB" aria-live="polite">0 palavras</div>
-      <div class="ferr" id="pitchBuscaErr" role="alert">✏️ Descreva o que busca com pelo menos 10 palavras!</div>
+      <div class="ferr" id="pitchBuscaErr" role="alert">✏️ Descreva o que busca com pelo menos 30 palavras!</div>
     </div>
     <div class="ferr" id="pitchErr" role="alert">⚠️ Preencha todos os 4 campos do seu Pitch antes de continuar!</div>
     <div class="pitch-preview" id="pitchPrev">
@@ -890,7 +890,7 @@ function updPitchWC(inId, wcId){
   wc.className = 'wcount '+(w<30?'warn':'ok');
 }
 
-/* ---- PITCH VALIDATION (10 words each) ---- */
+/* ---- PITCH VALIDATION (30 words each) ---- */
 function chkPitchFields(){
   var fields = [{id:'pitchQuem',errId:'pitchQuemErr'},{id:'pitchFaz',errId:'pitchFazErr'},{id:'pitchDif',errId:'pitchDifErr'},{id:'pitchBusca',errId:'pitchBuscaErr'}];
   var ok = true;
@@ -1055,12 +1055,8 @@ function go(n){
     if(!chkField('finalRefl','finalReflErr',CFG.MIN.finalRefl)) return;
     ST.finalRefl = document.getElementById('finalRefl').value;
     buildSaveCard();
-    // Enviar todas as respostas para o Sheets ao finalizar o Pitch
-    var dados = coletarTodosDados();
-    showToast('📡 Enviando respostas...');
-    enviarParaSheets(dados).then(function(){
-      showToast('✅ Respostas registradas!');
-    });
+  }
+  showScreen(n);
 }
 
 /* ---- PITCH PREVIEW ---- */
@@ -1219,11 +1215,6 @@ function saveFullPDF(){
     w.focus();
     setTimeout(function(){ w.print(); },600);
     showToast('📄 PDF aberto! Use Ctrl+P para salvar.');
-    // also trigger sheets save
-    document.getElementById('successBox').style.display='block';
-    ST.xp += 100; document.getElementById('xpBadge').textContent=ST.xp+' XP';
-    showToast('🎉 Brand Card Completo! +100 XP');
-    document.getElementById('successBox').scrollIntoView({behavior:'smooth'});
   }
   doPDF();
 }
