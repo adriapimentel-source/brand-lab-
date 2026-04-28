@@ -116,6 +116,8 @@
     .finput:focus,select.finput:focus,textarea.finput:focus{border-color:var(--c-teal);outline:none;box-shadow:0 0 0 3px rgba(46,196,182,.15);}
     textarea.finput{min-height:120px;resize:vertical;line-height:1.65;}
     select.finput{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M0 0l6 8 6-8z' fill='%238b95a8'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;padding-right:2.5rem;}
+    /* opções do dropdown nativo sempre com fundo claro e texto escuro */
+    select.finput option{background:#f0f4f8;color:#0d1a22;font-weight:500;}
     .fhint{font-size:.8rem;color:var(--c-sub);margin-top:.3rem;}
     .ferr{display:none;margin-top:.5rem;padding:.65rem .9rem;background:var(--c-errbg);border-left:3px solid var(--c-err);border-radius:0 8px 8px 0;font-size:.83rem;color:var(--c-rose);line-height:1.55;}
     .ferr.show{display:block;}
@@ -1088,8 +1090,8 @@ function buildSaveCard(){
   document.getElementById('savePitch').textContent = pitch;
 }
 
-/* ---- SCRIPT URL — Google Apps Script ---- */
-var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzmF9N1kPMx2jvFesVHNgMvP6mzbxkqVANSrbZD8IEW5tQHB6zSInJ1EgjLJcqCGUFN/exec';
+/* ---- SCRIPT URL — usa CFG.SHEETS_URL definido acima ---- */
+var SCRIPT_URL = CFG.SHEETS_URL;
 
 /* ---- COLETA TODOS OS DADOS ---- */
 function coletarTodosDados() {
@@ -1126,7 +1128,7 @@ function coletarTodosDados() {
 
 /* ---- ENVIO PARA GOOGLE SHEETS ---- */
 function enviarParaSheets(dados) {
-  if (!SCRIPT_URL || SCRIPT_URL === 'COLE_SUA_URL_AQUI') {
+  if (!SCRIPT_URL) {
     console.warn('Brand Lab: URL do Google Sheets não configurada.');
     return Promise.resolve();
   }
