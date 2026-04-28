@@ -860,7 +860,7 @@
 
 <script>
 var CFG = {
-  SHEETS_URL: 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE',
+  SHEETS_URL: 'https://script.google.com/macros/s/AKfycbzmF9N1kPMx2jvFesVHNgMvP6mzbxkqVANSrbZD8IEW5tQHB6zSInJ1EgjLJcqCGUFN/exec',
   MIN: { autopercep:40, olhosBrilham:20, swotS:20, swotW:20, swotO:20, swotT:15, swotRefl:30, commRefl:40, finalRefl:40 }
 };
 
@@ -1126,9 +1126,14 @@ function coletarTodosDados() {
 
 /* ---- ENVIO PARA GOOGLE SHEETS ---- */
 function enviarParaSheets(dados) {
-  if (!SCRIPT_URL || SCRIPT_URL === 'COLE_SUA_URL_AQUI') {
+  if (!SCRIPT_URL || SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbzmF9N1kPMx2jvFesVHNgMvP6mzbxkqVANSrbZD8IEW5tQHB6zSInJ1EgjLJcqCGUFN/exec') {
     console.warn('Brand Lab: URL do Google Sheets não configurada.');
-    return Promise.resolve();
+  function enviarParaSheets(dados) {
+    return fetch(SHEETS_URL, {
+      method: 'POST',
+      body: JSON.stringify(dados)
+    });
+}
   }
   return fetch(SCRIPT_URL, {
     method: 'POST',
