@@ -1091,6 +1091,39 @@ function buildSaveCard(){
 /* ---- SCRIPT URL — Google Apps Script ---- */
 var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzmF9N1kPMx2jvFesVHNgMvP6mzbxkqVANSrbZD8IEW5tQHB6zSInJ1EgjLJcqCGUFN/exec';
 
+/* ---- COLETA TODOS OS DADOS ---- */
+function coletarTodosDados() {
+  function val(id) {
+    var el = document.getElementById(id);
+    return el ? el.value.trim() : '';
+  }
+  return {
+    timestamp:     new Date().toISOString(),
+    nome:          ST.name,
+    ra:            ST.ra,
+    turma:         ST.turma,
+    autopercep:    ST.autopercep   || val('autopercep'),
+    olhosBrilham:  ST.olhosBrilham || val('olhosBrilham'),
+    swotS:         ST.swotS        || val('swotS'),
+    swotW:         ST.swotW        || val('swotW'),
+    swotO:         ST.swotO        || val('swotO'),
+    swotT:         ST.swotT        || val('swotT'),
+    swotRefl:      ST.swotRefl     || val('swotRefl'),
+    checklist:     ST.checklist + '/8',
+    commRefl:      ST.commRefl     || val('commRefl'),
+    ecoFonte:      ST.ecoFonte     || val('ecoFonte'),
+    ecoPalavras:   ST.ecoPalavras  || val('ecoPalavras'),
+    ecoHabilidade: ST.ecoHabilidade|| val('ecoHabilidade'),
+    ecoEssencia:   ST.ecoEssencia  || val('ecoEssencia'),
+    pitchQuem:     ST.pitch.quem   || val('pitchQuem'),
+    pitchFaz:      ST.pitch.faz    || val('pitchFaz'),
+    pitchDif:      ST.pitch.dif    || val('pitchDif'),
+    pitchBusca:    ST.pitch.busca  || val('pitchBusca'),
+    finalRefl:     ST.finalRefl    || val('finalRefl'),
+    xpTotal:       ST.xp
+  };
+}
+
 /* ---- ENVIO PARA GOOGLE SHEETS ---- */
 function enviarParaSheets(dados) {
   if (!SCRIPT_URL || SCRIPT_URL === 'COLE_SUA_URL_AQUI') {
