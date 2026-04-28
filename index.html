@@ -1125,11 +1125,15 @@ function enviarParaSheets(dados) {
     console.warn('Brand Lab: URL do Google Sheets não configurada.');
     return Promise.resolve();
   }
+  var params = new URLSearchParams();
+  params.append('payload', JSON.stringify(dados));
   return fetch(SCRIPT_URL, {
     method: 'POST',
     mode: 'no-cors',
-    headers: { 'Content-Type': 'text/plain' },
-    body: JSON.stringify(dados)
+    redirect: 'follow',
+    body: params
+  }).then(function() {
+    console.log('Brand Lab: envio concluído.');
   }).catch(function(err) {
     console.error('Brand Lab: falha no envio para Sheets:', err);
   });
