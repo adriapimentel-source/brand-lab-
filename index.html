@@ -1061,9 +1061,6 @@ function go(n){
     enviarParaSheets(dados).then(function(){
       showToast('✅ Respostas registradas!');
     });
-    autoSubmit();
-  }
-  showScreen(n);
 }
 
 /* ---- PITCH PREVIEW ---- */
@@ -1223,7 +1220,6 @@ function saveFullPDF(){
     setTimeout(function(){ w.print(); },600);
     showToast('📄 PDF aberto! Use Ctrl+P para salvar.');
     // also trigger sheets save
-    autoSubmit();
     document.getElementById('successBox').style.display='block';
     ST.xp += 100; document.getElementById('xpBadge').textContent=ST.xp+' XP';
     showToast('🎉 Brand Card Completo! +100 XP');
