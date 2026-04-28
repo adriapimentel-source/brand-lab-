@@ -887,7 +887,7 @@ function updPitchWC(inId, wcId){
   var wc = document.getElementById(wcId);
   if(!wc) return;
   wc.textContent = w+' palavra'+(w!==1?'s':'');
-  wc.className = 'wcount '+(w<10?'warn':'ok');
+  wc.className = 'wcount '+(w<30?'warn':'ok');
 }
 
 /* ---- PITCH VALIDATION (10 words each) ---- */
@@ -897,7 +897,7 @@ function chkPitchFields(){
   fields.forEach(function(f){
     var v = document.getElementById(f.id).value.trim();
     var err = document.getElementById(f.errId);
-    if(words(v)<10){ err.classList.add('show'); if(ok){ document.getElementById(f.id).focus(); } ok=false; }
+    if(words(v)<30){ err.classList.add('show'); if(ok){ document.getElementById(f.id).focus(); } ok=false; }
     else { err.classList.remove('show'); document.getElementById(f.id).style.borderColor=''; }
   });
   return ok;
